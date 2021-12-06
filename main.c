@@ -26,8 +26,6 @@ const eUSCI_SPI_MasterConfig spiMasterConfig =
         EUSCI_B_SPI_3PIN                                            // 3Wire SPI Mode
 };
 
-int16_t accelData[3];
-
 uint8_t spi_transfer(uint8_t inb)
 {
     UCB0TXBUF = inb;
@@ -143,13 +141,15 @@ void main(void)
             msprf24_get_irq_reason();
         }
         if(rf_irq & RF24_IRQ_TXFAILED) {
-            msprf24_irq_clear(RF24_IRQ_TXFAILED);
+            msprf24_irq_clear(rf_irq);
+        } else if (rf_irq & RF24_IRQ_FLAGGED) {
+            msprf24_irq_clear(rf_irq);
         }
         PCM_gotoLPM3();
     }
 }
 
-void processAccelData(uint16_t *result) {
+void processAccelData(int16_t *accelData,uint16_t *result) {
     accelData[2] = accelData[2] == 0 ? 1 : accelData[2];
 
     float roll =    atan2f(accelData[0], accelData[2]) + PI_QUARTER;
@@ -181,12 +181,13 @@ void ADC14_IRQHandler(void)
     if(status & ADC_INT2)
     {
         uint16_t dataSend[2] = {0};
+        int16_t accelData[3] = {0};
 
-        accelData[0] = ADC14_getResult(ADC_MEM0) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) >> 1);
-        accelData[1] = ADC14_getResult(ADC_MEM1) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) >> 1);
-        accelData[2] = ADC14_getResult(ADC_MEM2) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) >> 1);
+        accelData[0] = ADC14_getResult(ADC_MEM0) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) / 2);
+        accelData[1] = ADC14_getResult(ADC_MEM1) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) / 2);
+        accelData[2] = ADC14_getResult(ADC_MEM2) - ((ADC_ACCEL_MINUS_G + ADC_ACCEL_PLUS_G) / 2);
 
-        processAccelData(dataSend);
+        processAccelData(accelData, dataSend);
 
         w_tx_payload(RF_PACKET_SIZE, (uint8_t*) dataSend);
         msprf24_activate_tx();
