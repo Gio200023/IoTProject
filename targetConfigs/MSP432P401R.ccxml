@@ -15,6 +15,11 @@
             </property>
             <platform XML_version="1.2" id="platform_0">
                 <instance XML_version="1.2" desc="MSP432P401R" href="devices/msp432p401r.xml" id="MSP432P401R" xml="msp432p401r.xml" xmlpath="devices"/>
+            <device HW_revision="1" XML_version="1.2" description="ARM Cortex-M4F MCU" id="MSP432P401R" partnum="MSP432P401R" simulation="no">
+                    <router HW_revision="1.0" XML_version="1.2" desc="CS_DAP_0" description="CS_DAP Router" id="CS_DAP_0" isa="CS_DAP">
+                        <property Type="choicelist" Value="1" id="bypass"/>
+                    </router>
+                </device>
             </platform>
         </connection>
     </configuration>

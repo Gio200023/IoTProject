@@ -60,6 +60,12 @@ main.obj: ../nrf_userconfig.h
 main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/math.h
 main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_defs.h
 main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_limits.h
+main.obj: ../LcdDriver/Crystalfontz128x128_ST7735.h
+main.obj: D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
+main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/assert.h
+main.obj: D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
+main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h
+main.obj: D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h
 
 ../main.c:
 
@@ -180,4 +186,16 @@ D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/math.h:
 D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_defs.h:
 
 D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_limits.h:
+
+../LcdDriver/Crystalfontz128x128_ST7735.h:
+
+D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
+
+D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/assert.h:
+
+D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
+
+D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h:
+
+D:/TI/ccs1040/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h:
 

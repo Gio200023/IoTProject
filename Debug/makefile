@@ -14,9 +14,12 @@ ORDERED_OBJS += \
 "./msprf24.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
+"./LcdDriver/Crystalfontz128x128_ST7735.obj" \
+"./LcdDriver/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" \
 "../msp432p401r.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
+-l"D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/lib/ccs/m4f/grlib.a" \
 -l"D:/TI/ccs1040/driverlib/simplelink_msp432p4_sdk_3_40_01_02/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib" \
 
 -include ../makefile.init
@@ -27,7 +30,9 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include LcdDriver/subdir_vars.mk
 -include subdir_rules.mk
+-include LcdDriver/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -158,8 +163,8 @@ pwm.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "msprf24.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "main.d" "msprf24.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "main.obj" "msprf24.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "LcdDriver\Crystalfontz128x128_ST7735.obj" "LcdDriver\HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" 
+	-$(RM) "main.d" "msprf24.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "LcdDriver\Crystalfontz128x128_ST7735.d" "LcdDriver\HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

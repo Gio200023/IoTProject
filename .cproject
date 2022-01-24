@@ -43,6 +43,7 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.ti.ccstudio.buildDefinitions.MSP432_20.2.compilerID.INCLUDE_PATH.1345142559" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.MSP432_20.2.compilerID.INCLUDE_PATH" valueType="includePath">
 									<listOptionValue builtIn="false" value="D:\TI\ccs1040\driverlib\simplelink_msp432p4_sdk_3_40_01_02\simplelink_msp432p4_sdk_3_40_01_02\source\ti\devices\msp432p4xx\driverlib"/>
+									<listOptionValue builtIn="false" value="D:\TI\ccs1040\driverlib\simplelink_msp432p4_sdk_3_40_01_02\simplelink_msp432p4_sdk_3_40_01_02\source"/>
 									<listOptionValue builtIn="false" value="${CCS_BASE_ROOT}/arm/include"/>
 									<listOptionValue builtIn="false" value="${CCS_BASE_ROOT}/arm/include/CMSIS"/>
 									<listOptionValue builtIn="false" value="${PROJECT_ROOT}"/>
@@ -77,6 +78,7 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.ti.ccstudio.buildDefinitions.MSP432_20.2.linkerID.LIBRARY.365496168" name="Include library file or command file as input (--library, -l)" superClass="com.ti.ccstudio.buildDefinitions.MSP432_20.2.linkerID.LIBRARY" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="libc.a"/>
+									<listOptionValue builtIn="false" value="D:\TI\ccs1040\driverlib\simplelink_msp432p4_sdk_3_40_01_02\simplelink_msp432p4_sdk_3_40_01_02\source\ti\grlib\lib\ccs\m4f\grlib.a"/>
 									<listOptionValue builtIn="false" value="D:\TI\ccs1040\driverlib\simplelink_msp432p4_sdk_3_40_01_02\simplelink_msp432p4_sdk_3_40_01_02\source\ti\devices\msp432p4xx\driverlib\ccs\msp432p4xx_driverlib.lib"/>
 								</option>
 								<inputType id="com.ti.ccstudio.buildDefinitions.MSP432_20.2.exeLinker.inputType__CMD_SRCS.1299182692" name="Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.MSP432_20.2.exeLinker.inputType__CMD_SRCS"/>
