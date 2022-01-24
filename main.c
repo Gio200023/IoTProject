@@ -5,7 +5,7 @@
 
 const Timer_A_PWMConfig pwmConfigA0_wheels = {
    TIMER_A_CLOCKSOURCE_SMCLK,           //clock source
-   TIMER_A_CLOCKSOURCE_DIVIDER_4,       //divider
+   TIMER_A_CLOCKSOURCE_DIVIDER_48,       //divider
    CYCLE_PERIOD,                        //cycle period
    PWM_REGISTER_WHEELS,   //output compare register
    TIMER_A_OUTPUTMODE_TOGGLE_SET,       //output mode
@@ -14,7 +14,7 @@ const Timer_A_PWMConfig pwmConfigA0_wheels = {
 
 const Timer_A_PWMConfig pwmConfigA0_power = {
    TIMER_A_CLOCKSOURCE_SMCLK,           //clock source
-   TIMER_A_CLOCKSOURCE_DIVIDER_4,       //divider
+   TIMER_A_CLOCKSOURCE_DIVIDER_48,       //divider
    CYCLE_PERIOD,                        //cycle period
    PWM_REGISTER_POWER,   //output compare register
    TIMER_A_OUTPUTMODE_TOGGLE_SET,       //output mode
@@ -24,8 +24,8 @@ const Timer_A_PWMConfig pwmConfigA0_power = {
 const eUSCI_SPI_MasterConfig spiMasterConfig =
 {
         EUSCI_B_SPI_CLOCKSOURCE_SMCLK,                              // SMCLK Clock Source
-        3000000,                                                    // SMCLK = DCO = 3MHZ
-        1000000,                                                     // SPICLK = 500khz
+        48000000,                                                    // SMCLK = DCO = 3MHZ
+        8000000,                                                     // SPICLK = 500khz
         EUSCI_B_SPI_MSB_FIRST,                                      // MSB First
         EUSCI_B_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT,    // Phase
         EUSCI_B_SPI_CLOCKPOLARITY_INACTIVITY_LOW,                   // High polarity
@@ -34,7 +34,7 @@ const eUSCI_SPI_MasterConfig spiMasterConfig =
 
 const Timer_A_UpModeConfig timerConfigA1 = {
         TIMER_A_CLOCKSOURCE_SMCLK,
-        TIMER_A_CLOCKSOURCE_DIVIDER_4,
+        TIMER_A_CLOCKSOURCE_DIVIDER_48,
         5*CYCLE_PERIOD,
         TIMER_A_TAIE_INTERRUPT_DISABLE,
         TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE,
@@ -91,20 +91,32 @@ void comm_init() {
     rf_crc              = RF24_EN_CRC | RF24_CRCO; // CRC enabled, 16-bit
     rf_addr_width       = 5;
     rf_speed_power      = RF24_SPEED_MAX | RF24_POWER_MAX;
-    rf_channel          = 119;
+    rf_channel          = RF_CHANNEL;
 
     msprf24_init();
 
     Interrupt_enableInterrupt(INT_PORT3);
 
-    msprf24_set_pipe_packetsize(0, RF_PACKET_SIZE);
-    msprf24_open_pipe(0, 1); // pipe 0, autoACK (1)
+    msprf24_set_pipe_packetsize(RF_PIPE, RF_PACKET_SIZE);
+    msprf24_open_pipe(RF_PIPE, 1); // pipe 0, autoACK (1)
 
     w_rx_addr(0, addr);
 
     msprf24_activate_rx();
 
     return;
+}
+
+void hw_init() {
+    /* Set 2 flash wait states for Flash bank 0 and 1*/
+    FlashCtl_setWaitState(FLASH_BANK0, 2);
+    FlashCtl_setWaitState(FLASH_BANK1, 2);
+    /* Initializes Clock System */
+    CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_HSMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_ACLK, CS_REFOCLK_SELECT, CS_CLOCK_DIVIDER_1);
 }
 
 uint8_t check=0;
@@ -117,13 +129,14 @@ void main(void)
 
     WDT_A_holdTimer();
 
+    hw_init();
+
     GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
     timer_init();
     comm_init();
     Interrupt_enableMaster();
 
     while(!msprf24_is_alive());
-
     GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 
     while (1) {
@@ -148,14 +161,14 @@ void main(void)
             p_d = p_d>MAX_DUTY_CYCLE ? MAX_DUTY_CYCLE : p_d;
             p_d = p_d<MIN_DUTY_CYCLE ? MIN_DUTY_CYCLE : p_d;
 
-            if( w_d > wheels_duty + 10 || w_d < wheels_duty - 10){
+            if( w_d > wheels_duty + 20 || w_d < wheels_duty - 20){
 
                 wheels_duty = w_d;
                 setDutyCycle(TIMER_A0_BASE, PWM_REGISTER_WHEELS, wheels_duty);
 
             }
 
-            if( p_d > power_duty + 10 || p_d < power_duty - 10 ){
+            if( p_d > power_duty + 20 || p_d < power_duty - 20 ){
 
                 power_duty = p_d;
                 setDutyCycle(TIMER_A0_BASE, PWM_REGISTER_POWER, power_duty);

@@ -12,9 +12,9 @@
 #include "msprf24.h"
 #include <inttypes.h>
 
-#define CYCLE_PERIOD            15000U
-#define MIN_DUTY_CYCLE    975U
-#define MAX_DUTY_CYCLE    1275U
+#define CYCLE_PERIOD      20000U
+#define MIN_DUTY_CYCLE    1000U
+#define MAX_DUTY_CYCLE    2000U
 #define AVE_DUTY_CYCLE    ((MIN_DUTY_CYCLE + MAX_DUTY_CYCLE) / 2)
 
 #define PWM_REGISTER_WHEELS     TIMER_A_CAPTURECOMPARE_REGISTER_2
@@ -40,6 +40,9 @@
 #define SPI_COMM        EUSCI_B0_BASE
 
 #define RF_PACKET_SIZE  4U
+
+#define RF_PIPE         0U
+#define RF_CHANNEL      119U
 
 void spi_init();
 uint8_t spi_transfer(uint8_t inb);
